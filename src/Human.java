@@ -1,19 +1,26 @@
+import java.util.StringJoiner;
+
 public class Human extends Heroes {
 
   private boolean canOpenChest;
   private double criticalDamage;
+  private double price;
+  Shield shield = new Shield(30);
+
 
   public Human() {
+    price = 1650;
 
   }
 
   public Human(String nameOfHero, ClassOfHero classOfHero, double experience, double intellect,
       double strength, double agility, double spirit, double stamina, double damage, int year,
-      int month, int day, boolean canOpenChest, double criticalDamage) {
+      int month, int day, boolean canOpenChest, double criticalDamage, double price) {
     super(nameOfHero, classOfHero, experience, intellect, strength, agility, spirit, stamina,
         damage, year, month, day);
     this.canOpenChest = canOpenChest;
     this.criticalDamage = criticalDamage;
+    this.price = price;
   }
 
   public double criticalHit () {
@@ -88,9 +95,6 @@ public class Human extends Heroes {
   }
 
 
-
-
-
   @Override
   public void gainExperince() {
     System.out.println("Нужно бооольше опыта...");
@@ -105,13 +109,62 @@ public class Human extends Heroes {
 
   }
 
+  public boolean isCanOpenChest() {
+    return canOpenChest;
+  }
+
+  public void setCanOpenChest(boolean canOpenChest) {
+    this.canOpenChest = canOpenChest;
+  }
+
+  public double getCriticalDamage() {
+    return criticalDamage;
+  }
+
+  public void setCriticalDamage(double criticalDamage) {
+    this.criticalDamage = criticalDamage;
+  }
+
+  public double getPrice() {
+    return price;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
+  public void protectedHuman (){
+    stamina +=shield.protectForHuman;
+    System.out.println("После надевания щита текущее хп будет " + stamina);
+  }
+
+  public class Shield {
+    int protectForHuman;
+
+    public Shield(int protectForHuman) {
+      this.protectForHuman = protectForHuman;
+    }
+  }
+
+
+
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder("Human{");
-    sb.append("canOpenChest=").append(canOpenChest);
-    sb.append(", criticalDamage=").append(criticalDamage);
-    sb.append('}');
-    return sb.toString();
+    return new StringJoiner(", ", Human.class.getSimpleName() + "[", "]")
+        .add("nameOfHero='" + nameOfHero + "'")
+        .add("classOfHero=" + classOfHero)
+        .add("experience=" + experience)
+        .add("intellect=" + intellect)
+        .add("strength=" + strength)
+        .add("agility=" + agility)
+        .add("spirit=" + spirit)
+        .add("stamina=" + stamina)
+        .add("damage=" + damage)
+        .add("dateOfCreating=" + dateOfCreating)
+        .add("canOpenChest=" + canOpenChest)
+        .add("criticalDamage=" + criticalDamage)
+        .add("price=" + price)
+        .toString();
   }
 }
 

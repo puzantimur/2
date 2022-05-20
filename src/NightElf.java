@@ -1,25 +1,31 @@
+import java.util.StringJoiner;
+
 public class NightElf extends Heroes {
 
+  Weapon weapon = new Weapon(300, 200);
   private boolean invisibility;
   private int increaseHealth;
+  private double price;
 
   public NightElf() {
+    price = 2890;
   }
 
   public NightElf(String nameOfHero, ClassOfHero classOfHero, double experience, double intellect,
       double strength, double agility, double spirit, double stamina, double damage, int year,
-      int month, int day, boolean invisibility, int increaseHealth) {
+      int month, int day, boolean invisibility, int increaseHealth, double price) {
     super(nameOfHero, classOfHero, experience, intellect, strength, agility, spirit, stamina,
         damage, year, month, day);
+    this.price = price;
     this.invisibility = invisibility;
-    this.increaseHealth = (int) (increaseHealth+stamina);
+    this.increaseHealth = (int) (increaseHealth + stamina);
   }
 
-  public void gainStamina (double increase) {
+  public void gainStamina(double increase) {
     stamina *= increase;
   }
 
-  public void canKillHuman (double stam) {
+  public void canKillHuman(double stam) {
     if (this.damage > stam) {
       System.out.println("Ночной эльф может убить Human");
     } else {
@@ -35,7 +41,6 @@ public class NightElf extends Heroes {
           "Тёмный рыцарь атакует с помощью " + ClassOfHero.DARK_KNIGHT.getFirstWeapon() +
               " " + "и " + ClassOfHero.DARK_KNIGHT.getUltimate());
     }
-
     if (classOfHero == ClassOfHero.PALADIN) {
       System.out.println("Паладин атакует с помощью " + ClassOfHero.PALADIN.getFirstWeapon() +
           " " + "и " + ClassOfHero.PALADIN.getUltimate());
@@ -78,22 +83,25 @@ public class NightElf extends Heroes {
 
   }
 
-
   public void jump(double coefficient) {
     super.jump();
-    if (agility < coefficient*60) {
+    if (agility < coefficient * 60) {
       System.out.println("Эльф не умеет прыгать");
     } else {
       System.out.println("Эльф умеет прыгать");
     }
   }
 
+  public void wornWeapon() {
+    damage = weapon.addingDamage + damage;
+    agility = weapon.addingAgility + agility;
 
-  @Override
-    public void gainExperince () {
-    System.out.println("Стартовый набор опыта ночного эльфа = " + experience);
   }
 
+  @Override
+  public void gainExperince() {
+    System.out.println("Стартовый набор опыта ночного эльфа = " + experience);
+  }
 
 
   public void gainExperince(int incExp) {
@@ -118,6 +126,46 @@ public class NightElf extends Heroes {
   public void setIncreaseHealth(int increaseHealth) {
     this.increaseHealth = increaseHealth;
   }
+
+  public double getPrice() {
+    return price;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", NightElf.class.getSimpleName() + "[", "]")
+        .add("nameOfHero='" + nameOfHero + "'")
+        .add("classOfHero=" + classOfHero)
+        .add("experience=" + experience)
+        .add("intellect=" + intellect)
+        .add("strength=" + strength)
+        .add("agility=" + agility)
+        .add("spirit=" + spirit)
+        .add("stamina=" + stamina)
+        .add("damage=" + damage)
+        .add("dateOfCreating=" + dateOfCreating)
+        .add("invisibility=" + invisibility)
+        .add("increaseHealth=" + increaseHealth)
+        .add("price=" + price)
+        .toString();
+  }
+
+  public class Weapon {
+
+    int addingDamage = 200;
+    int addingAgility = 100;
+
+    public Weapon(int addingDamage, int addingAgility) {
+      this.addingDamage = addingDamage;
+      this.addingAgility = addingAgility;
+    }
+  }
+
+
 }
 
 
